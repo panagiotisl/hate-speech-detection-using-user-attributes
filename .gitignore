@@ -1,4 +1,5 @@
 .idea/
 venv/
-login_credentials.py
+log/
+configuration/
 __pycache__/

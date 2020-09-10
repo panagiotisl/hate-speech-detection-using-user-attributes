@@ -1,6 +1,6 @@
 import tweepy
 import csv
-import login_credentials as creds
+from configuration import log_config, twitter_login_config
 
 # Initial dataset file
 dataset_file = "dataset/NAACL_SRW_2016.csv"
@@ -9,8 +9,8 @@ dataset_file = "dataset/NAACL_SRW_2016.csv"
 bad_tweets = "dataset/bad_tweets.csv"
 
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler(creds.CONSUMER_KEY, creds.CONSUMER_SECRET)
-auth.set_access_token(creds.ACCESS_TOKEN, creds.ACCESS_TOKEN_SECRET)
+auth = tweepy.OAuthHandler(twitter_login_config.CONSUMER_KEY, twitter_login_config.CONSUMER_SECRET)
+auth.set_access_token(twitter_login_config.ACCESS_TOKEN, twitter_login_config.ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 with open(dataset_file, 'r') as read_file, open(bad_tweets, "w", newline='') as write_file:

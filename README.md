@@ -10,8 +10,11 @@ tweets, analyzing the user's profile using any metrics we may find useful. There
 from NLP analysis to Social Network analysis.
 
 ### Dataset
-Some data from the original dataset were inaccessible. Therefore, we use `extract_final_dataset.py`
+Some data from the original dataset were inaccessible. Therefore, we use `remove_non_existent_tweets.py`
 to find all the tweets that caused an exception. Most of the time, the exception was 
 *'code': 63, 'message': 'User has been suspended'*. After extracting the `bad_tweets.csv` file,
-we compared it with `NAACL_SRW_2016.csv` and created our final dataset `final_training_data.csv`.
+we compare it with `NAACL_SRW_2016.csv`, we remove the tweets that caused exceptions
+and we obtain the dataset `training_data_previous_attributes.csv`, which contains the tweets that still exist.
 
+From this file, we examine each tweet ID and we use the twitter API to extract all the information needed for our 
+research and we will save it to our final training data file `final_training_data.csv`.
