@@ -1,26 +1,16 @@
-import pandas as pd
-import numpy as np
 from sklearn import model_selection, metrics
 from sklearn.neighbors import KNeighborsClassifier
-
-df = pd.read_csv("dataset/tweet_user_data.csv")
-
-df = df[["user_total_tweets", "tweet_label"]]
-
-prediction_column = "tweet_label"
-
-X = np.array(df.drop([prediction_column], 1))
-y = np.array(df[prediction_column])
+import data_config as data
 
 total_accuracy = 0
 total_f1 = 0
 total_precision = 0
 total_recall = 0
-reps = 20
+reps = data.cycles
 
 for _ in range(reps):
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.2)
-    knn_clf = KNeighborsClassifier(n_neighbors=15)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(data.X, data.y, test_size=data.test_size)
+    knn_clf = KNeighborsClassifier(n_neighbors=data.knn_neighbors)
     knn_clf.fit(X_train, y_train)
     y_pred = knn_clf.predict(X_test)
     acc = metrics.accuracy_score(y_test, y_pred)
@@ -32,14 +22,7 @@ for _ in range(reps):
     total_precision += precision
     total_recall += recall
 
-
-average_accuracy = total_accuracy / reps
-average_f1 = total_f1 / reps
-average_precision = total_precision /reps
-average_recall = total_recall / reps
-
-print(f"average accuracy after {reps} cycles = {average_accuracy}")
-print(f"average F1 score after {reps} cycles = {average_f1}")
-print(f"average precision score after {reps} cycles = {average_precision}")
-print(f"average recall score after {reps} cycles = {average_recall}")
-
+print(f"average accuracy after {reps} cycles = {total_accuracy / reps}")
+print(f"average F1 score after {reps} cycles = {total_f1 / reps}")
+print(f"average precision score after {reps} cycles = {total_precision / reps}")
+print(f"average recall score after {reps} cycles = {total_recall / reps}")

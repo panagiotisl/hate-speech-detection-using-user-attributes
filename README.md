@@ -11,4 +11,18 @@ from NLP analysis to Social Network analysis.
 ### Dataset
 For our research we 'll be using the [dataset](https://github.com/zeerakw/hatespeech) from the previously mentioned papers.
 Some data from the original dataset were inaccessible. Therefore, we use `extract_tweet_user_data.py` to obtain our new dataset
-`tweet_user_data.csv`.
+`tweet_user_data.csv`. The dataset includes the following information:
+* tweet_retweets
+* user_following
+* user_followers
+* user_total_tweets
+* tweet_label
+
+### Usage
+To use one of the algorithms (i.e SVM, KNN) you have to do the following:
+1. go to `data_config.py` and:
+    * choose the feature(s) that you want to train and test your data with.
+    * choose how many train cycles you want to run (def. 20) changing the appropriate variable.
+    * choose the size of your test dataset (def. 80/20) changing the appropriate variable.
+    * for KNN algorithm choose the number of neighbors (def. 15).
+2. simply run `knn.py` or `svm.py` to get the results.
