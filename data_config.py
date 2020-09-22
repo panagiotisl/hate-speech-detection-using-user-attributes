@@ -14,7 +14,7 @@ f3 = "user_followers"
 f4 = "user_total_tweets"
 
 # features
-attribute_columns = [f1, f2]
+attribute_columns = [f2, f3]
 
 # label
 prediction_column = "tweet_label"

@@ -15,5 +15,5 @@ test_size = 0.2
 cycles = 20
 
 # classifier
-#classifier = KNeighborsClassifier(n_neighbors=15)
-classifier = SVC()
+classifier = KNeighborsClassifier(n_neighbors=15)
+#classifier = SVC(probability=True)
