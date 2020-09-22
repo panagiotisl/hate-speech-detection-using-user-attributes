@@ -5,20 +5,20 @@ from configuration import log_config, twitter_login_config
 logger = log_config.logger
 
 # Old Dataset file
-dataset_file = "dataset/NAACL_SRW_2016.csv"
+dataset_file = "dataset/data.csv"
 
 # New dataset file
 tweet_data_file = "dataset/tweet_user_data.csv"
 
 
-# Encode tweet label as 0 for 'none', 1 for 'racism' and 2 for 'sexism'
-def tweet_label_encoding(label):
-    if label == "none":
-        return 0
-    elif label == "racism":
-        return 1
-    else:
-        return 2
+# # Encode tweet label as 0 for 'none', 1 for 'racism' and 2 for 'sexism'
+# def tweet_label_encoding(label):
+#     if label == "none":
+#         return 0
+#     elif label == "racism":
+#         return 1
+#     else:
+#         return 2
 
 
 # Authenticate to Twitter
@@ -49,7 +49,8 @@ with open(dataset_file, 'r') as read_file, open(tweet_data_file, "w", encoding="
             # for hashtag in tweet.entities['hashtags']:
             #     hashtags.append(hashtag['text'])
             # tweet label encoding
-            tweet_label = tweet_label_encoding(row[1])
+            tweet_label = row[1]
+            # tweet_label = tweet_label_encoding(row[1])
             writer.writerow({"tweet_id": tweet.id,
                              # "tweet_text": tweet.text,
                              # "tweet_hashtags": hashtags,

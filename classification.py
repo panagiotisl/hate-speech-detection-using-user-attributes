@@ -1,18 +1,22 @@
 from sklearn import model_selection, metrics
-from sklearn.neighbors import KNeighborsClassifier
 import data_config as data
+import classification_config as clf
 
 total_accuracy = 0
 total_f1 = 0
 total_precision = 0
 total_recall = 0
-reps = data.cycles
+reps = clf.cycles
+
+print(f"classifier = {clf.classifier}")
+print(f"dataset = {data.columns}")
+print("------------------------------")
 
 for _ in range(reps):
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(data.X, data.y, test_size=data.test_size)
-    knn_clf = KNeighborsClassifier(n_neighbors=data.knn_neighbors)
-    knn_clf.fit(X_train, y_train)
-    y_pred = knn_clf.predict(X_test)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(data.X, data.y, test_size=clf.test_size)
+    classifier = clf.classifier
+    classifier.fit(X_train, y_train)
+    y_pred = classifier.predict(X_test)
     acc = metrics.accuracy_score(y_test, y_pred)
     f1 = metrics.f1_score(y_test, y_pred, average="weighted")
     precision = metrics.precision_score(y_test, y_pred, average="weighted", zero_division=1)
@@ -26,3 +30,5 @@ print(f"average accuracy after {reps} cycles = {total_accuracy / reps}")
 print(f"average F1 score after {reps} cycles = {total_f1 / reps}")
 print(f"average precision score after {reps} cycles = {total_precision / reps}")
 print(f"average recall score after {reps} cycles = {total_recall / reps}")
+
+
