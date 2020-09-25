@@ -18,8 +18,9 @@ p_fpr, p_tpr, _ = roc_curve(y_test, random_probs, pos_label=1)
 
 plt.style.use('seaborn')
 
+classifier = str(clf.classifier).split("(")
 # plot roc curves
-plt.plot(fpr, tpr, linestyle='--', color='green', label=clf.classifier)
+plt.plot(fpr, tpr, linestyle='--', color='green', label=classifier[0])
 # title
 plt.title('ROC curve')
 # x label
@@ -31,5 +32,5 @@ plt.legend(loc='best')
 save_file_name = ''
 for f in data.attribute_columns:
     save_file_name += "_" + f
-plt.savefig('roc_plots/' + save_file_name, dpi=300)
+plt.savefig("roc_plots/" + classifier[0] + save_file_name, dpi=300)
 plt.show()

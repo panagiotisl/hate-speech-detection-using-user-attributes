@@ -9,16 +9,22 @@ tweets, analyzing the user's profile using any metrics we may find useful. There
 to a Social Network analysis.
 
 ### Dataset
-For our research we 'll be using the dataset from the previously mentioned papers.
+For our research we 'll be using the [dataset](https://github.com/nuhaalbadi/Arabic_hatespeech) from the 
+previously mentioned paper.
 Some data from the original dataset were inaccessible. Therefore, we use `extract_tweet_user_data.py` to obtain our new dataset
 `tweet_user_data.csv`. The dataset includes the following information:
 * tweet_id
 * tweet_retweets
+* tweet_likes
 * user_following
 * user_followers
 * user_total_tweets
 * tweet_label
-Finally, we removed duplicate tweets and kept only distinct users in our dataset to avoid biased results.
+
+Finally, in order to avoid biased results we: 
+1. removed duplicate tweets. 
+2. kept only distinct users in our dataset. 
+
 
 ### Usage
 To use one of the algorithms (i.e SVM, KNN) you have to do the following:
