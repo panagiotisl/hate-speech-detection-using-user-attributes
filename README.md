@@ -1,18 +1,23 @@
 # Hate speech detection
-This project is based on the paper 
-["Are They Our Brothers? Analysis and Detection of Religious Hate Speech in the Arabic Twittersphere"](https://ieeexplore.ieee.org/document/8508247), 
-Albadi, Nuha and Kurdi, Maram and Mishra, Shivakant (2018).
- 
-In this research, we will try to expand the knowledge that the previous authors had acquired 
-and we will attempt to follow a new approach. Specifically, we will try to detect hate speech in
-tweets, analyzing the user's profile using any metrics we may find useful. Therefore, we move
-to a Social Network analysis.
+In this research, we will try to detect hatespeech in twitter, analyzing the user's profile using any metrics we may find useful. 
 
-### Dataset
-For our research we 'll be using the [dataset](https://github.com/nuhaalbadi/Arabic_hatespeech) from the 
-previously mentioned paper.
-Some data from the original dataset were inaccessible. Therefore, we use `extract_tweet_user_data.py` to obtain our new dataset
-`tweet_user_data.csv`. The dataset includes the following information:
+## Dataset
+For our research we 'll create a custom dataset, using basically three steps.
+
+#### First scraping
+We firstly collect the tweets using `data_scrapper.py`. The approach to collect
+data is the following:
+1. we have found a controversial term (i.e #Trump), which we use to scrape tweets using the twitter api.
+2. we run the scrapper as a scheduled job every day and night (because there is an important time difference
+between Europe and the U.S).
+3. we keep the tweet id and we create two classification classes, determining
+    * hate speech or not (binary 1/0).
+    * neutral, negative or positive (0/1/2).
+
+#### Information extraction
+Some data from the dataset were inaccessible after the first extraction period. Therefore, we use 
+`extract_tweet_user_data.py` to obtain our new dataset `tweet_user_data.csv`. 
+The dataset includes the following information:
 * tweet_id
 * tweet_retweets
 * tweet_likes
@@ -21,12 +26,13 @@ Some data from the original dataset were inaccessible. Therefore, we use `extrac
 * user_total_tweets
 * tweet_label
 
+#### Final dataset creation
 Finally, in order to avoid biased results we: 
 1. removed duplicate tweets. 
 2. kept only distinct users in our dataset. 
 
 
-### Usage
+## Usage
 To use one of the algorithms (i.e SVM, KNN) you have to do the following:
 1. go to `data_config.py` and:
     * choose the feature(s) that you want to train and test your data with.
