@@ -21,23 +21,26 @@ The dataset includes the following information:
 * tweet_id
 * tweet_retweets
 * tweet_likes
+* tweet_is_reply
 * user_following
 * user_followers
 * user_total_tweets
-* tweet_label
+* is_hate
+* is_positive_negative_neutral
 
 #### Final dataset creation
 Finally, in order to avoid biased results we: 
 1. removed duplicate tweets. 
 2. kept only distinct users in our dataset. 
 
-
 ## Usage
 To use one of the algorithms (i.e SVM, KNN) you have to do the following:
 1. go to `data_config.py` and:
     * choose the feature(s) that you want to train and test your data with.
+    * choose the desired classification class.
 2. go to `classification_config.py` and:
     * choose how many train cycles you want to run (def. 20) changing the appropriate variable.
     * choose the size of your test dataset (def. 80/20) changing the appropriate variable.
-    * choose classification algorithm.
-2. simply run `classification.py` to get the results.
+    * choose classification algorithm, uncommenting the desired algorithm.
+3. run `classification.py` to get the results on the console.
+4. run `roc_plot.py` to get the results on a ROC plot saved in a `roc_plots` directory.

@@ -17,8 +17,8 @@ api = tweepy.API(auth, wait_on_rate_limit=True)
 with open(dataset_file, 'r') as read_file, open(tweet_data_file, "w", encoding="utf-8", newline='') as write_file:
     lineReader = csv.reader(read_file, delimiter=',')
     fieldnames = [
-        "tweet_id", "tweet_retweets", "tweet_likes",
-        "user_id", "user_following", "user_followers", "user_total_tweets", "tweet_label"
+        "tweet_id", "tweet_retweets", "tweet_likes", "tweet_is_reply",
+        "user_id", "user_following", "user_followers", "user_total_tweets", "is_hate", "is_positive_negative_neutral"
     ]
     writer = csv.DictWriter(write_file, delimiter=',', fieldnames=fieldnames, quoting=csv.QUOTE_NONNUMERIC)
     tweet_parsing_errors = 0
@@ -30,14 +30,17 @@ with open(dataset_file, 'r') as read_file, open(tweet_data_file, "w", encoding="
         except tweepy.TweepError as e:
             tweet_parsing_errors += 1
         else:
+            tweet_is_reply = 0 if tweet.in_reply_to_status_id is None else 1
             writer.writerow({"tweet_id": tweet.id,
                              "tweet_retweets": tweet.retweet_count,
                              "tweet_likes": tweet.favorite_count,
+                             "tweet_is_reply": tweet_is_reply,
                              "user_id": tweet.user.id,
                              "user_following": tweet.user.friends_count,
                              "user_followers": tweet.user.followers_count,
                              "user_total_tweets": tweet.user.statuses_count,
-                             "tweet_label": row[1]
+                             "is_hate": row[1],
+                             "is_positive_negative_neutral": row[2]
                              })
             write_file.flush()
         finally:
