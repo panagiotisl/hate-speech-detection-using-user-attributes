@@ -28,7 +28,7 @@ p1 = "is_hate"
 p2 = "is_positive_negative_neutral"
 
 # features
-attribute_columns = [f6]
+attribute_columns = [f3]
 
 # label
 prediction_column = p2

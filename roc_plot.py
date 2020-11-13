@@ -32,5 +32,5 @@ plt.legend(loc='best')
 save_file_name = ''
 for f in data.attribute_columns:
     save_file_name += "_" + f
-plt.savefig("roc_plots/" + classifier[0] + save_file_name, dpi=300)
+plt.savefig("roc_plots/" + data.prediction_column + "/" + classifier[0] + save_file_name, dpi=300)
 plt.show()
