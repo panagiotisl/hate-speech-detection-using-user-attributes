@@ -27,6 +27,7 @@ The dataset includes the following information:
 * user_total_tweets
 * is_hate
 * is_positive_negative_neutral
+* tweet_text
 
 #### Final dataset creation
 Finally, in order to avoid biased results we: 
