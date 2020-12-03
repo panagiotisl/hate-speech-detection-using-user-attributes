@@ -1,6 +1,5 @@
 from sklearn import model_selection, metrics
-import data_config as data
-import classification_config as clf
+from user_attributes_classification import classification_config as clf, data_config as data
 
 total_accuracy = 0
 total_f1 = 0

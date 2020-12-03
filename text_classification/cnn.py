@@ -6,7 +6,7 @@ from gensim.parsing.preprocessing import STOPWORDS
 from keras_preprocessing.sequence import pad_sequences
 from keras_preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import Embedding, Dense, GlobalMaxPooling1D, Conv1D
+from tensorflow.keras.layers import Embedding, Dense, GlobalMaxPooling1D, Conv1D, MaxPooling1D, Flatten
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
@@ -56,7 +56,6 @@ X = pad_sequences(encoded_text, maxlen=max_length, padding="post")
 
 y = df["is_hate"]
 
-
 ######### GLOVE VECTORS
 GLOVE_FILE = "C:\\Users\\giorg\\Documents\\Thesis\\GloveModelFile\\glove.twitter.27B."+str(EMBEDDING_DIM)+"d.txt"
 
@@ -86,15 +85,19 @@ vector_size = EMBEDDING_DIM
 
 # CNN model
 model = Sequential()
+# use this for custom embeddings
+# model.add(Embedding(vocab_size, vector_size, input_length=max_length))
+# or use this to enable GloVe pretrained embeddings
 model.add(Embedding(vocab_size, vector_size, input_length=max_length, weights=[word_vector_matrix]))
-model.add(Conv1D(128, 5, activation="relu"))
-model.add(GlobalMaxPooling1D())
+model.add(Conv1D(filters=32, kernel_size=5, activation="relu"))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
 model.add(Dense(10, activation="relu"))
 model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer=Adam(learning_rate=0.01), loss="binary_crossentropy", metrics=["accuracy"])
 
-model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test), batch_size=10, verbose=0)
+model.fit(X_train, y_train, epochs=10, verbose=0)
 
-loss, accuracy = model.evaluate(X, y, verbose=0)
+loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
 print('Accuracy: %f' % (accuracy*100))

@@ -37,15 +37,10 @@ prediction_column = p2
 columns = attribute_columns + [prediction_column]
 
 # read csv and keep only the columns needed
-df = pd.read_csv("dataset/tweet_user_data_final.csv")
+df = pd.read_csv("../dataset/tweet_user_data_final.csv")
 df = df[columns]
 
 # create numpy arrays for the datasets
 X = np.array(df.drop([prediction_column], 1))
-# X[:, 0] = np.where(X[:, 0] < 2, 1, 100)
-# X[:, 1] = np.where(X[:, 1] < 2, 1, 100)
-# X[:, 2] = np.where(X[:, 2] < 750, 1, 10000)
-# X[:, 3] = np.where(X[:, 3] < 12000, 1, 100000)
-# X[:, 4] = np.where(X[:, 4] < 15000, 1, 100000)
 
 y = np.array(df[prediction_column])

@@ -1,8 +1,7 @@
 from sklearn import model_selection
 from sklearn.metrics import roc_curve
 import matplotlib.pyplot as plt
-import data_config as data
-import classification_config as clf
+from user_attributes_classification import classification_config as clf, data_config as data
 
 X_train, X_test, y_train, y_test = model_selection.train_test_split(data.X, data.y, test_size=clf.test_size)
 classifier = clf.classifier
@@ -32,5 +31,5 @@ plt.legend(loc='best')
 save_file_name = ''
 for f in data.attribute_columns:
     save_file_name += "_" + f
-plt.savefig("roc_plots/" + data.prediction_column + "/" + classifier[0] + save_file_name, dpi=300)
+plt.savefig("../roc_plots/" + data.prediction_column + "/" + classifier[0] + save_file_name, dpi=300)
 plt.show()

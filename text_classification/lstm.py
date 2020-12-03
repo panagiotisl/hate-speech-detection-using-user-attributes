@@ -6,14 +6,13 @@ from gensim.parsing.preprocessing import STOPWORDS
 from keras_preprocessing.sequence import pad_sequences
 from keras_preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import Embedding, Dense, Flatten
+from tensorflow.keras.layers import Embedding, Dense, LSTM
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
 from preprocess_twitter import tokenize as tokenizer_g
 
-
-EMBEDDING_DIM = 50
+EMBEDDING_DIM = 25
 
 
 def tokenize(tweet):
@@ -57,7 +56,6 @@ X = pad_sequences(encoded_text, maxlen=max_length, padding="post")
 
 y = df["is_hate"]
 
-
 ######### GLOVE VECTORS
 GLOVE_FILE = "C:\\Users\\giorg\\Documents\\Thesis\\GloveModelFile\\glove.twitter.27B."+str(EMBEDDING_DIM)+"d.txt"
 
@@ -85,19 +83,18 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_
 
 vector_size = EMBEDDING_DIM
 
+# LSTM model
 model = Sequential()
-
 # use this for custom embeddings
-# model.add(Embedding(vocab_size, vector_size, input_length=max_length, trainable=False))
+model.add(Embedding(vocab_size, vector_size, input_length=max_length))
 # or use this to enable GloVe pretrained embeddings
-model.add(Embedding(vocab_size, vector_size, input_length=max_length, weights=[word_vector_matrix], trainable=False))
-model.add(Flatten())
+# model.add(Embedding(vocab_size, vector_size, input_length=max_length, weights=[word_vector_matrix]))
+model.add(LSTM(64, dropout=0.1))
 model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer=Adam(learning_rate=0.01), loss="binary_crossentropy", metrics=["accuracy"])
 
-model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test), verbose=0)
+model.fit(X_train, y_train, epochs=10, verbose=0)
 
-loss, accuracy = model.evaluate(X, y, verbose=0)
+loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
 print('Accuracy: %f' % (accuracy*100))
-

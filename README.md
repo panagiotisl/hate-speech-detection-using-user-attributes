@@ -1,4 +1,4 @@
-# Hate speech detection
+# Hate Speech Detection on Twitter
 In this research, we will try to detect hatespeech in twitter, analyzing the user's profile using any metrics we may find useful. 
 
 ## Dataset
@@ -32,9 +32,19 @@ The dataset includes the following information:
 #### Final dataset creation
 Finally, in order to avoid biased results we: 
 1. removed duplicate tweets. 
-2. kept only distinct users in our dataset. 
+2. kept only distinct users in our dataset (`/dataset/tweet_user_data_final.csv`). 
 
 ## Usage
+Usage is basically split in two folders depending on what type of classification you wish to try.
+Thus, you can refer to the `text_classification` directory in order to use deep learning for text
+classification, or, otherwise, you can refer to the `user_attributes_classification` to try 
+to classify tweets depending on user's data.
+
+#### Text classification
+To use text classification you can simply run one of the files `cnn.py`, `lstm.py` and `sequential.py`,
+in order to use one of the equivalent neural networks to train the dataset and test it.
+
+#### User attributes classification
 To use one of the algorithms (i.e SVM, KNN) you have to do the following:
 1. go to `data_config.py` and:
     * choose the feature(s) that you want to train and test your data with.
