@@ -12,7 +12,13 @@ from tensorflow.keras.optimizers import Adam
 
 from preprocess_twitter import tokenize as tokenizer_g
 
-EMBEDDING_DIM = 25
+
+# vectors dimension for the embedding
+EMBEDDING_DIM = 50
+# validation data size (i.e 0.2 = 20%)
+VALIDATION_SIZE = 0.2
+# epochs to train the neural network
+EPOCHS = 5
 
 
 def tokenize(tweet):
@@ -81,6 +87,13 @@ for word, index in token.word_index.items():
 ########### MODEL BUILDING
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2, stratify=y)
 
+# we will split the training data in valuation dataset
+val_size = int(len(X_train)*VALIDATION_SIZE)
+X_val = X_train[:val_size]
+X_train_partial = X_train[val_size:]
+y_val = y_train[:val_size]
+y_train_partial = y_train[val_size:]
+
 vector_size = EMBEDDING_DIM
 
 # LSTM model
@@ -94,7 +107,7 @@ model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer=Adam(learning_rate=0.01), loss="binary_crossentropy", metrics=["accuracy"])
 
-model.fit(X_train, y_train, epochs=10, verbose=0)
+model.fit(X_train_partial, y_train_partial, epochs=EPOCHS, verbose=1, validation_data=(X_val, y_val))
 
 loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
 print('Accuracy: %f' % (accuracy*100))

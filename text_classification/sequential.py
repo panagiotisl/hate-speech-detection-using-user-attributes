@@ -9,11 +9,16 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.layers import Embedding, Dense, Flatten
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
-
+import matplotlib.pyplot as plt
 from preprocess_twitter import tokenize as tokenizer_g
 
 
+# vectors dimension for the embedding
 EMBEDDING_DIM = 50
+# validation data size (i.e 0.2 = 20%)
+VALIDATION_SIZE = 0.2
+# epochs to train the neural network
+EPOCHS = 10
 
 
 def tokenize(tweet):
@@ -83,10 +88,17 @@ for word, index in token.word_index.items():
 ########### MODEL BUILDING
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2, stratify=y)
 
+# we will split the training data in valuation dataset
+val_size = int(len(X_train)*VALIDATION_SIZE)
+X_val = X_train[:val_size]
+X_train_partial = X_train[val_size:]
+y_val = y_train[:val_size]
+y_train_partial = y_train[val_size:]
+
 vector_size = EMBEDDING_DIM
 
+# Sequential Model
 model = Sequential()
-
 # use this for custom embeddings
 # model.add(Embedding(vocab_size, vector_size, input_length=max_length))
 # or use this to enable GloVe pretrained embeddings
@@ -94,10 +106,13 @@ model.add(Embedding(vocab_size, vector_size, input_length=max_length, weights=[w
 model.add(Flatten())
 model.add(Dense(1, activation="sigmoid"))
 
-model.compile(optimizer=Adam(learning_rate=0.01), loss="binary_crossentropy", metrics=["accuracy"])
+model.compile(optimizer=Adam(learning_rate=0.001), loss="binary_crossentropy", metrics=["accuracy"])
 
-model.fit(X_train, y_train, epochs=10, verbose=0)
+class_weight = {
+    0: 1,
+    1: 5
+}
+clf = model.fit(X_train_partial, y_train_partial, epochs=EPOCHS, verbose=1, validation_data=(X_val, y_val), class_weight=class_weight)
 
 loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
 print('Accuracy: %f' % (accuracy*100))
-
