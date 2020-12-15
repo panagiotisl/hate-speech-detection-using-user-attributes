@@ -3,11 +3,11 @@ import numpy as np
 
 def produce_glove_vector_matrix(embedding_dim, vocab_size, token):
 
-    GLOVE_FILE = "C:\\Users\\giorg\\Documents\\Thesis\\GloveModelFile\\glove.twitter.27B."+str(embedding_dim)+"d.txt"
+    glove_file = "C:\\Users\\giorg\\Documents\\Thesis\\GloveModelFile\\glove.twitter.27B."+str(embedding_dim)+"d.txt"
 
     glove_vectors = dict()
 
-    file = open(GLOVE_FILE, encoding="utf-8")
+    file = open(glove_file, encoding="utf-8")
 
     for line in file:
         values = line.split()
