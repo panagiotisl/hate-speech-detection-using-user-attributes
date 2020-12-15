@@ -121,7 +121,7 @@ model = Model(inputs=[input_1, input_2], outputs=output)
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 
-plot_model(model, to_file='model_plot3.png', show_shapes=True, show_layer_names=True)
+#plot_model(model, to_file='model_plot3.png', show_shapes=True, show_layer_names=True)
 
 ########### MODEL BUILDING
 # X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2, stratify=y)

@@ -41,7 +41,13 @@ classification, or, otherwise, you can refer to the `user_attributes_classificat
 to classify tweets depending on user's data.
 
 #### Text classification
-To use text classification you can simply run one of the files `cnn.py`, `lstm.py` and `sequential.py`,
+To use text classification you should:
+1. go to `classification_config.py` and specify the required data. Specifically you can choose:
+   * embedding dimension of the vectors.
+   * test dataset size.
+   * epochs.
+   * validation dataset size.
+2. simply run one of the files `cnn.py`, `lstm.py`,
 in order to use one of the equivalent neural networks to train the dataset and test it.
 
 #### User attributes classification
