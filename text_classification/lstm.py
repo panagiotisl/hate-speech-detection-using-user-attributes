@@ -21,7 +21,7 @@ model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer=Adam(learning_rate=0.001), loss="binary_crossentropy", metrics=["accuracy"])
 
-model.fit(data.X_train_partial, data.y_train_partial, epochs=clf_config.EPOCHS, verbose=1, validation_data=(data.X_val, data.y_val))
+model.fit(data.X_train, data.y_train, epochs=clf_config.EPOCHS, verbose=1, validation_split=clf_config.VALIDATION_SIZE)
 
 loss, accuracy = model.evaluate(data.X_test, data.y_test, verbose=0)
 print('Accuracy: %f' % (accuracy*100))
