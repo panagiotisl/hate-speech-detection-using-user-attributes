@@ -1,6 +1,7 @@
 from string import punctuation
 
 import pandas as pd
+import numpy as np
 from gensim.parsing.preprocessing import STOPWORDS
 from keras_preprocessing.sequence import pad_sequences
 from keras_preprocessing.text import Tokenizer
@@ -43,7 +44,7 @@ max_length = len(max(encoded_text, key=len))
 
 X = pad_sequences(encoded_text, maxlen=max_length, padding="post")
 
-y = df["is_hate"]
+y = np.array(df["is_hate"])
 
 # MODEL BUILDING
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=clf_config.TEST_SIZE, stratify=y)
