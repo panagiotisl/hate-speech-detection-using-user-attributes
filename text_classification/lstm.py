@@ -6,6 +6,10 @@ import classification_config as clf_config
 import prepare_text_data as data
 from glove_producer import produce_glove_vector_matrix
 
+# the following two lines are used to create the plot of the neural network model
+import os
+os.environ["PATH"] += os.pathsep + 'C:\\Program Files\\Graphviz\\bin'
+
 # GLOVE VECTORS
 word_vector_matrix = produce_glove_vector_matrix(clf_config.EMBEDDING_DIM, data.vocab_size, data.token)
 
