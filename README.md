@@ -35,13 +35,15 @@ Finally, in order to avoid biased results we:
 2. kept only distinct users in our dataset (`/dataset/tweet_user_data_final.csv`). 
 
 ## Usage
-Usage is basically split in two folders depending on what type of classification you wish to try.
-Thus, you can refer to the `text_classification` directory in order to use deep learning for text
-classification, or, otherwise, you can refer to the `user_attributes_classification` to try 
-to classify tweets depending on user's data.
+Usage is basically split in three folders depending on what type of classification you wish to try.
+Thus, you can refer to:
+* the `text_classification` directory, in order to use deep learning for text
+classification.
+* the `user_attributes_classification` directory, to try to classify tweets depending on user's data.
+* the `multiple_attributes_classification` directory, to try to combine text and user attributes classification.
 
 #### Text classification
-To use text classification you should:
+To use text classification you should use the files in the `text_classification` directory:
 1. go to `classification_config.py` and specify the required data. Specifically you can choose:
    * embedding dimension of the vectors.
    * test dataset size.
@@ -51,7 +53,8 @@ To use text classification you should:
 in order to use one of the equivalent neural networks to train the dataset and test it.
 
 #### User attributes classification
-To use one of the algorithms (i.e SVM, KNN) you have to do the following:
+To use one of the algorithms (i.e SVM, KNN) you have to use the files in the `user_attributes_classification`
+directory and do the following:
 1. go to `data_config.py` and:
     * choose the feature(s) that you want to train and test your data with.
     * choose the desired classification class.
@@ -61,3 +64,17 @@ To use one of the algorithms (i.e SVM, KNN) you have to do the following:
     * choose classification algorithm, uncommenting the desired algorithm.
 3. run `classification.py` to get the results on the console.
 4. run `roc_plot.py` to get the results on a ROC plot saved in a `roc_plots` directory.
+
+#### Combined attributes classification
+To use a combined classification (text and user attributes), you have to go to the `multiple_attributes_classification` directory
+and make sure to do the following:
+1. go to `classification_config.py` and choose:
+   * embedding dimension of the vectors.
+   * test dataset size.
+   * epochs.
+   * validation dataset size.     
+   * you have to choose the user attributes you wish to use alongside tweet's text to train
+     your dataset with.
+     
+2. simply run one of the files `cnn_plus_user_attriutes.py`, `lstm_plus_user_attriutes.py`,
+in order to use one of the equivalent neural networks to train the dataset and test it.

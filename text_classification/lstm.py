@@ -1,6 +1,7 @@
 from tensorflow.keras.layers import Embedding, Dense, LSTM, SpatialDropout1D
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.utils import plot_model
 
 import classification_config as clf_config
 import prepare_text_data as data
@@ -24,6 +25,9 @@ model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
 model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer=Adam(learning_rate=0.001), loss="binary_crossentropy", metrics=["accuracy"])
+
+# plot the model
+plot_model(model, to_file='../nn_plots/lstm/model_plot.png', show_shapes=True, show_layer_names=True)
 
 model.fit(data.X_train, data.y_train, epochs=clf_config.EPOCHS, verbose=1, validation_split=clf_config.VALIDATION_SIZE)
 

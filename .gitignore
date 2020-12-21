@@ -3,3 +3,4 @@ venv/
 configuration/
 __pycache__/
 roc_plots/
+nn_plots/

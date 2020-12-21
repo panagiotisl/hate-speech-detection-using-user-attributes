@@ -8,7 +8,7 @@ classifier = clf.classifier
 classifier.fit(X_train, y_train)
 y_pred = classifier.predict_proba(X_test)
 
-# roc curve for models
+# roc curve for nn_plots
 fpr, tpr, thresh = roc_curve(y_test, y_pred[:, 1], pos_label=1)
 
 # roc curve for tpr = fpr

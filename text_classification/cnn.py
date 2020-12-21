@@ -29,7 +29,7 @@ model.add(Dense(1, activation="sigmoid"))
 model.compile(optimizer=Adam(learning_rate=0.001), loss="binary_crossentropy", metrics=["accuracy"])
 
 # plot the model
-plot_model(model, to_file='../models/cnn/model_plot.png', show_shapes=True, show_layer_names=True)
+plot_model(model, to_file='../nn_plots/cnn/model_plot.png', show_shapes=True, show_layer_names=True)
 
 model.fit(data.X_train, data.y_train, epochs=clf_config.EPOCHS, verbose=1, validation_split=clf_config.VALIDATION_SIZE)
 
