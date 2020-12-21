@@ -4,5 +4,3 @@ configuration/
 __pycache__/
 roc_plots/
 nn_plots/
-nn_plots_dir.PNG
-roc_plots_dir.PNG
