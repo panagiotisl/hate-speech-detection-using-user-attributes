@@ -4,7 +4,7 @@ In this research, we will try to detect hatespeech in twitter, analyzing the use
 ## Dataset
 For our research we 'll create a custom dataset, using basically three steps.
 
-#### First scraping
+### First scraping
 We firstly collect the tweets using `data_scrapper.py`. The approach to collect
 data is the following:
 1. we have found a controversial term (i.e #Trump), which we use to scrape tweets using the twitter api.
@@ -14,7 +14,7 @@ between Europe and the U.S).
     * hate speech or not (binary 1/0).
     * neutral, negative or positive (0/1/2).
 
-#### Information extraction
+### Information extraction
 Some data from the dataset were inaccessible after the first extraction period. Therefore, we use 
 `extract_tweet_user_data.py` to obtain our new dataset `tweet_user_data.csv`. 
 The dataset includes the following information:
@@ -29,7 +29,7 @@ The dataset includes the following information:
 * is_positive_negative_neutral
 * tweet_text
 
-#### Final dataset creation
+### Final dataset creation
 Finally, in order to avoid biased results we: 
 1. removed duplicate tweets. 
 2. kept only distinct users in our dataset (`/dataset/tweet_user_data_final.csv`). 
@@ -42,7 +42,7 @@ classification.
 * the `user_attributes_classification` directory, to try to classify tweets depending on user's data.
 * the `multiple_attributes_classification` directory, to try to combine text and user attributes classification.
 
-#### Text classification
+### Text classification
 To use text classification you should use the files in the `text_classification` directory:
 1. go to `classification_config.py` and specify the required data. Specifically you can choose:
    * embedding dimension of the vectors.
@@ -52,7 +52,7 @@ To use text classification you should use the files in the `text_classification`
 2. simply run one of the files `cnn.py`, `lstm.py`,
 in order to use one of the equivalent neural networks to train the dataset and test it.
 
-#### User attributes classification
+### User attributes classification
 To use one of the algorithms (i.e SVM, KNN) you have to use the files in the `user_attributes_classification`
 directory and do the following:
 1. go to `data_config.py` and:
@@ -65,7 +65,7 @@ directory and do the following:
 3. run `classification.py` to get the results on the console.
 4. run `roc_plot.py` to get the results on a ROC plot saved in a `roc_plots` directory.
 
-#### Combined attributes classification
+### Combined attributes classification
 To use a combined classification (text and user attributes), you have to go to the `multiple_attributes_classification` directory
 and make sure to do the following:
 1. go to `classification_config.py` and choose:
@@ -78,3 +78,13 @@ and make sure to do the following:
      
 2. simply run one of the files `cnn_plus_user_attriutes.py`, `lstm_plus_user_attriutes.py`,
 in order to use one of the equivalent neural networks to train the dataset and test it.
+
+## Extra Notes:
+* Make sure to create the 2 directory structures under project root (i.e alongside with 
+  directories `text_classification`, `dataset` etc.) in the following form:
+   1. For the neural networks plots:
+      
+      ![nn_plots_dir](nn_plots_dir.PNG)
+   2. For the roc plots:
+   
+      ![roc_plots_dir](roc_plots_dir.PNG)
