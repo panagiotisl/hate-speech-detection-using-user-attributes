@@ -6,6 +6,7 @@ from tensorflow.keras.utils import plot_model
 import classification_config as clf_config
 import prepare_text_data as data
 from glove_producer import produce_glove_vector_matrix
+from matplotlib import pyplot as plt
 
 # the following two lines are used to create the plot of the neural network model
 import os
@@ -19,9 +20,9 @@ model = Sequential()
 # use this for custom embeddings
 # model.add(Embedding(vocab_size, embedding_dim, input_length=max_length))
 # or use this to enable GloVe pretrained embeddings
-model.add(Embedding(data.vocab_size, clf_config.EMBEDDING_DIM, input_length=data.max_length, weights=[word_vector_matrix]))
-model.add(Conv1D(filters=64, kernel_size=5, activation="relu"))
-model.add(MaxPooling1D(pool_size=5))
+model.add(Embedding(data.vocab_size, clf_config.EMBEDDING_DIM, input_length=data.max_length)) #, weights=[word_vector_matrix]))
+model.add(Conv1D(filters=64, kernel_size=10, activation="relu"))
+model.add(MaxPooling1D())
 model.add(Flatten())
 model.add(Dense(32, activation="relu"))
 model.add(Dense(1, activation="sigmoid"))
@@ -31,7 +32,28 @@ model.compile(optimizer=Adam(learning_rate=0.001), loss="binary_crossentropy", m
 # plot the model
 plot_model(model, to_file='../nn_plots/cnn/model_plot.png', show_shapes=True, show_layer_names=True)
 
-model.fit(data.X_train, data.y_train, epochs=clf_config.EPOCHS, verbose=1, validation_split=clf_config.VALIDATION_SIZE)
+history = model.fit(data.X_train, data.y_train, epochs=clf_config.EPOCHS, verbose=0, validation_split=clf_config.VALIDATION_SIZE)
+
+epochs = range(1, clf_config.EPOCHS+1)
+
+# ACCURACY
+# plt.plot(epochs, history.history['accuracy'])
+# plt.plot(epochs, history.history['val_accuracy'])
+# plt.title('Training and Validation Accuracy')
+# plt.ylabel('accuracy')
+# plt.xlabel('epochs')
+# plt.legend(['train', 'val'], loc='upper left')
+# plt.savefig('cnn_accuracy.png')
+
+# LOSS
+# plt.plot(epochs, history.history['loss'], 'g')
+# plt.plot(epochs, history.history['val_loss'], 'b')
+# plt.title('Training and Validation Loss')
+# plt.ylabel('loss')
+# plt.xlabel('epochs')
+# plt.legend(['train', 'val'], loc='upper left')
+# plt.savefig('cnn_loss.png')
 
 loss, accuracy = model.evaluate(data.X_test, data.y_test, verbose=0)
 print('Accuracy: %f' % (accuracy*100))
+print('Loss: %f' % (loss*100))
