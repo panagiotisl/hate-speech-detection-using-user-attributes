@@ -14,4 +14,4 @@ f3 = "user_following"
 f4 = "user_followers"
 f5 = "user_total_tweets"
 f6 = "tweet_is_reply"
-chosen_attributes_list = [f1, f2, f6]
+chosen_attributes_list = [f1, f2, f3, f5, f5, f6]
