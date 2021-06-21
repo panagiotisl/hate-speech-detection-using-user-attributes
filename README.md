@@ -8,11 +8,7 @@ For our research we 'll create a custom dataset, using basically three steps.
 We firstly collect the tweets using `data_scrapper.py`. The approach to collect
 data is the following:
 1. we have found a controversial term (i.e #Trump), which we use to scrape tweets using the twitter api.
-2. we run the scrapper as a scheduled job every day and night (because there is an important time difference
-between Europe and the U.S).
-3. we keep the tweet id and we create two classification classes, determining
-    * hate speech or not (binary 1/0).
-    * neutral, negative or positive (0/1/2).
+2. we keep the tweets id and classify them as hateful or not (binary 1/0).
 
 ### Information extraction
 Some data from the dataset were inaccessible after the first extraction period. Therefore, we use 
@@ -28,6 +24,7 @@ The dataset includes the following information:
 * is_hate
 * is_positive_negative_neutral
 * tweet_text
+##### Note: To comply with Twitter's legal terms, we only upload the tweet id and the classification label.
 
 ### Final dataset creation
 Finally, in order to avoid biased results we: 
@@ -51,23 +48,10 @@ To use text classification you should use the files in the `text_classification`
    * validation dataset size.
 2. simply run one of the files `cnn.py`, `lstm.py`,
 in order to use one of the equivalent neural networks to train the dataset and test it.
-
-### User attributes classification
-To use one of the algorithms (i.e SVM, KNN) you have to use the files in the `user_attributes_classification`
-directory and do the following:
-1. go to `data_config.py` and:
-    * choose the feature(s) that you want to train and test your data with.
-    * choose the desired classification class.
-2. go to `classification_config.py` and:
-    * choose how many train cycles you want to run (def. 20) changing the appropriate variable.
-    * choose the size of your test dataset (def. 80/20) changing the appropriate variable.
-    * choose classification algorithm, uncommenting the desired algorithm.
-3. run `classification.py` to get the results on the console.
-4. run `roc_plot.py` to get the results on a ROC plot saved in a `roc_plots` directory.
-
+   
 ### Combined attributes classification
-To use a combined classification (text and user attributes), you have to go to the `multiple_attributes_classification` directory
-and make sure to do the following:
+To use combined classification (text and user attributes), you have to go to the `multiple_attributes_classification` directory
+and do the following:
 1. go to `classification_config.py` and choose:
    * embedding dimension of the vectors.
    * test dataset size.
@@ -75,12 +59,11 @@ and make sure to do the following:
    * validation dataset size.     
    * you have to choose the user attributes you wish to use alongside tweet's text to train
      your dataset with.
-     
-2. simply run one of the files `cnn_plus_user_attriutes.py`, `lstm_plus_user_attriutes.py`,
+2. run one of the files `cnn_plus_user_attriutes.py`, `lstm_plus_user_attriutes.py`,
 in order to use one of the equivalent neural networks to train the dataset and test it.
 
 ## Extra Notes:
-* Make sure to create the 2 directory structures under project root (i.e alongside with 
+* Make sure to create the directory structures under project root (i.e alongside with 
   directories `text_classification`, `dataset` etc.) in the following form:
    1. For the neural networks plots:
       

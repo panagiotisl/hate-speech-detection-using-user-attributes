@@ -47,5 +47,5 @@ X = pad_sequences(encoded_text, maxlen=max_length, padding="post")
 y = np.array(df["is_hate"])
 
 # MODEL BUILDING
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=clf_config.TEST_SIZE, stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=clf_config.TEST_SIZE, stratify=y)
 

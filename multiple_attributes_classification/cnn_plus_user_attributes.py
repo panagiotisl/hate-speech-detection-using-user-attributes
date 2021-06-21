@@ -1,3 +1,5 @@
+from sklearn import metrics
+from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import plot_model
 
@@ -9,6 +11,9 @@ from tensorflow.keras.layers import Embedding, Dense, Input, Conv1D, MaxPooling1
 from tensorflow.keras.models import Model
 
 from matplotlib import pyplot as plt
+
+import pandas as pd
+import seaborn as sn
 
 # the following two lines are used to create the plot of the neural network model
 import os
@@ -46,15 +51,47 @@ model = Model(inputs=[input_1, input_2], outputs=output)
 # prepare the model
 model.compile(optimizer=Adam(learning_rate=0.001), loss='binary_crossentropy', metrics=['acc'])
 
+history = model.fit(x=[data.X_train_text, data.X_train_user], verbose=0, y=data.y_train, epochs=clf_config.EPOCHS,
+                    validation_split=clf_config.VALIDATION_SIZE, class_weight={0: 1., 1: 2.})
+
+pred = model.predict(x=[data.X_test_text, data.X_test_user])
+
+seq_predictions = list(map(lambda x: 1 if (x > 0.5) else 0, pred))
+
+print('Accuracy:', accuracy_score(data.y_test, seq_predictions))
+print('F1 score:', f1_score(data.y_test, seq_predictions, average="weighted"))
+print('Recall:', recall_score(data.y_test, seq_predictions, average="weighted"))
+print('Precision:', precision_score(data.y_test, seq_predictions, average="weighted"))
+
+conf_m = metrics.confusion_matrix(data.y_test, seq_predictions)
+
+print(conf_m)
+
+df_cm = pd.DataFrame(conf_m, range(2), range(2))
+sn.set(font_scale=1)
+sn.heatmap(df_cm, annot=True, fmt='d')
+plt.xlabel("Actual")
+plt.ylabel("Predicted")
+
+attrs = ""
+counter = 1
+for i in clf_config.chosen_attributes_list:
+    attrs += i
+    if counter < len(clf_config.chosen_attributes_list):
+        attrs += "_"
+        counter += 1
+
+plt.savefig("confusion_cnn_"+attrs+".png")
+
 # plot the model
 # plot_model(model, to_file='../nn_plots/cnn_plus_user_attr/model_plot.png', show_shapes=True, show_layer_names=True)
 
-for i in range(1, 4):
-
-    # train the model
-    history = model.fit(x=[data.X_train_text, data.X_train_user], verbose=0, y=data.y_train, epochs=clf_config.EPOCHS, validation_split=clf_config.VALIDATION_SIZE)
-
-    epochs = range(1, clf_config.EPOCHS+1)
+# for i in range(1, 4):
+#
+#     # train the model
+#     history = model.fit(x=[data.X_train_text, data.X_train_user], verbose=0, y=data.y_train, epochs=clf_config.EPOCHS, validation_split=clf_config.VALIDATION_SIZE)
+#
+#     epochs = range(1, clf_config.EPOCHS+1)
 
     # ACCURACY
     # plt.plot(epochs, history.history['acc'])
@@ -75,6 +112,6 @@ for i in range(1, 4):
     # plt.savefig('cnn_plus_user_loss.png')
 
     # evaluate the model on the test dataset
-    loss, accuracy = model.evaluate(x=[data.X_test_text, data.X_test_user], y=data.y_test, verbose=0)
-    print('Accuracy: %f' % (accuracy*100))
+    # loss, accuracy = model.evaluate(x=[data.X_test_text, data.X_test_user], y=data.y_test, verbose=0)
+    # print('Accuracy: %f' % (accuracy*100))
     # print('Loss: %f' % (loss*100))

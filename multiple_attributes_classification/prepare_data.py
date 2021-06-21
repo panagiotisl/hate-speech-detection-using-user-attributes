@@ -29,6 +29,9 @@ df = pd.read_csv("../dataset/tweet_user_data_final.csv")
 
 df["tweet_text"] = df["tweet_text"].apply(tokenize).apply(split_and_remove_punctuation_and_stopwords)
 
+# uncomment the line below for equally balanced dataset
+# df.drop(df.index[:1100][df[:1100]["is_hate"] == 0], inplace=True)
+
 text = df["tweet_text"]
 
 # let's use Keras.Tokenizer to convert our sentences to vectors
@@ -57,7 +60,7 @@ _, user_attributes_count = X.shape
 user_attributes_count -= 1
 
 # MODEL BUILDING
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=clf_config.TEST_SIZE, stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=clf_config.TEST_SIZE, stratify=y)
 
 X_train_text = pad_sequences(X_train[:, 0], maxlen=max_length, padding="post")
 X_test_text = pad_sequences(X_test[:, 0], maxlen=max_length, padding="post")
